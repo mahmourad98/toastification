@@ -29,8 +29,7 @@ class ToastHelper {
 
     if (color is MaterialColor) return color;
 
-    final findInMaterialColors = Colors.primaries
-        .firstWhereOrNull((element) => element.shade500 == color);
+    final findInMaterialColors = Colors.primaries.firstWhereOrNull((element) => element.shade500 == color);
 
     return findInMaterialColors ?? createMaterialColor(color);
   }

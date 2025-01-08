@@ -6,8 +6,7 @@ import 'package:toastification/src/core/context_ext.dart';
 ///
 /// [context] The build context.
 /// [onClose] Callback function when the close button is tapped.
-typedef CloseButtonBuilder = Widget Function(
-    BuildContext context, VoidCallback onClose);
+typedef CloseButtonBuilder = Widget Function(BuildContext context, VoidCallback onClose);
 
 /// Configuration class for toast close button customization.
 ///
@@ -39,11 +38,9 @@ class ToastCloseButton extends Equatable {
     );
   }
 
-  @override
-  bool? get stringify => true;
+  @override bool? get stringify => true;
 
-  @override
-  List<Object?> get props => [showType, buttonBuilder];
+  @override List<Object?> get props => [showType, buttonBuilder];
 }
 
 /// Defines the visibility behavior of the toast close button.
@@ -91,12 +88,11 @@ class ToastCloseButtonHolder extends StatelessWidget {
   final bool showCloseButton;
   final ToastCloseButton toastCloseButton;
 
-  @override
-  Widget build(BuildContext context) {
+  @override Widget build(BuildContext context) {
     return IgnorePointer(
       ignoring: !showCloseButton,
       child: SizedBox(
-        height: 30,
+        height: 32,
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),
           switchInCurve: Curves.easeInOut,
@@ -112,16 +108,10 @@ class ToastCloseButtonHolder extends StatelessWidget {
               ),
             );
           },
-          child: showCloseButton
-              ? SizedBox(
-                  key: const ValueKey('close_button_visible'),
-                  child: toastCloseButton.buttonBuilder
-                          ?.call(context, onCloseTap) ??
-                      _DefaultCloseButton(onCloseTap: onCloseTap),
-                )
-              : const SizedBox.shrink(
-                  key: ValueKey('close_button_hidden'),
-                ),
+          child: showCloseButton ? SizedBox(
+            key: const ValueKey('close_button_visible'),
+            child: toastCloseButton.buttonBuilder?.call(context, onCloseTap) ?? _DefaultCloseButton(onCloseTap: onCloseTap),
+          ) : const SizedBox.shrink(key: ValueKey('close_button_hidden'),),
         ),
       ),
     );
@@ -140,12 +130,11 @@ class _DefaultCloseButton extends StatelessWidget {
   /// Callback function executed when the close button is tapped
   final VoidCallback? onCloseTap;
 
-  @override
-  Widget build(BuildContext context) {
+  @override Widget build(BuildContext context) {
     final toastTheme = context.toastTheme;
 
     return SizedBox.square(
-      dimension: 30,
+      dimension: 32,
       child: Material(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(5),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:toastification/src/core/toastification_manager.dart';
 import 'package:toastification/src/core/toastification_overlay_state.dart';
-import 'package:toastification/src/widget/built_in/built_in_builder.dart';
 import 'package:toastification/toastification.dart';
+
+import '../widget/built_in/built_in_builder.dart';
 
 // TODO(payam): add navigator observer
 
@@ -140,15 +141,11 @@ class Toastification {
     }
 
     /// find the config from the context or use the global config
-    final ToastificationConfig config = (contextProvided
-            ? ToastificationConfigProvider.maybeOf(context!)?.config
-            : toastificationOverlayState?.globalConfig) ??
-        const ToastificationConfig();
+    final ToastificationConfig config = (contextProvided ? ToastificationConfigProvider.maybeOf(context!)?.config : toastificationOverlayState?.globalConfig) ?? const ToastificationConfig();
 
     direction ??= TextDirection.ltr;
 
-    final effectiveAlignment =
-        (alignment ?? config.alignment).resolve(direction);
+    final effectiveAlignment = (alignment ?? config.alignment).resolve(direction);
 
     final manager = _managers.putIfAbsent(
       effectiveAlignment,
@@ -258,9 +255,6 @@ class Toastification {
     TextDirection? direction,
     bool? showProgressBar,
     ProgressIndicatorThemeData? progressBarTheme,
-    @Deprecated(
-        'IMPORTANT: The closeButtonShowType parameter is deprecated and will be removed in the next major version. Use the closeButton parameter instead.')
-    CloseButtonShowType? closeButtonShowType,
     ToastCloseButton closeButton = const ToastCloseButton(),
     bool? closeOnClick,
     bool? dragToClose,
@@ -270,13 +264,6 @@ class Toastification {
     bool? applyBlurEffect,
     ToastificationCallbacks callbacks = const ToastificationCallbacks(),
   }) {
-    // TODO: remove this variable when the deprecated parameter (closeButtonShowType) is removed
-    var toastCloseButton = closeButton;
-    if (closeButtonShowType != null &&
-        closeButtonShowType != closeButton.showType) {
-      toastCloseButton = closeButton.copyWith(showType: closeButtonShowType);
-    }
-
     return showCustom(
       context: context,
       overlayState: overlayState,
@@ -306,7 +293,7 @@ class Toastification {
           showIcon: showIcon,
           showProgressBar: showProgressBar,
           progressBarTheme: progressBarTheme,
-          closeButton: toastCloseButton,
+          closeButton: closeButton,
           closeOnClick: closeOnClick,
           dragToClose: dragToClose,
           dismissDirection: dismissDirection,

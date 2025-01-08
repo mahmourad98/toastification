@@ -10,12 +10,10 @@ class FilledStyle extends BaseStyle {
   @override
   Color get iconColor => foregroundColor;
 
-  @override
-  ProgressIndicatorThemeData get progressIndicatorTheme =>
-      ProgressIndicatorThemeData(
-        color: foregroundColor.withValues(alpha: .30),
-        linearMinHeight: progressIndicatorStrokeWidth,
-        linearTrackColor: foregroundColor.withValues(alpha: .15),
-        refreshBackgroundColor: foregroundColor.withValues(alpha: .15),
-      );
+  @override ProgressIndicatorThemeData get progressIndicatorTheme => ProgressIndicatorThemeData(
+    color: foregroundColor.withValues(alpha: .30),
+    linearMinHeight: progressIndicatorStrokeWidth,
+    linearTrackColor: foregroundColor.withValues(alpha: .15),
+    refreshBackgroundColor: foregroundColor.withValues(alpha: .15),
+  );
 }

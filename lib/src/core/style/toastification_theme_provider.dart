@@ -18,13 +18,13 @@ class ToastificationThemeProvider extends StatelessWidget {
     this.themeBuilder,
   });
 
-  @override
-  Widget build(BuildContext context) {
+  @override Widget build(BuildContext context) {
     ToastificationTheme theme = ToastificationTheme(
       selectedStyle: selectedStyle,
       themeData: Theme.of(context),
       direction: textDirection,
     );
+
     if (themeBuilder != null) {
       theme = themeBuilder!(theme);
     }

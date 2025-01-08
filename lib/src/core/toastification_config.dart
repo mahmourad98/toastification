@@ -77,20 +77,18 @@ class ToastificationConfig extends Equatable {
       animationDuration: animationDuration ?? this.animationDuration,
       animationBuilder: animationBuilder ?? this.animationBuilder,
       marginBuilder: marginBuilder ?? this.marginBuilder,
-      applyMediaQueryViewInsets:
-          applyMediaQueryViewInsets ?? this.applyMediaQueryViewInsets,
+      applyMediaQueryViewInsets: applyMediaQueryViewInsets ?? this.applyMediaQueryViewInsets,
     );
   }
 
-  @override
-  List<Object?> get props => [
-        alignment,
-        itemWidth,
-        clipBehavior,
-        animationDuration,
-        marginBuilder,
-        applyMediaQueryViewInsets,
-      ];
+  @override List<Object?> get props => [
+    alignment,
+    itemWidth,
+    clipBehavior,
+    animationDuration,
+    marginBuilder,
+    applyMediaQueryViewInsets,
+  ];
 }
 
 /// Default animation builder for [Toastification]

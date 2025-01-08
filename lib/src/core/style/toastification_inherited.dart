@@ -11,14 +11,12 @@ class ToastificationThemeInherited extends InheritedWidget {
   });
 
   static ToastificationThemeInherited of(BuildContext context) {
-    final ToastificationThemeInherited? result = context
-        .dependOnInheritedWidgetOfExactType<ToastificationThemeInherited>();
+    final ToastificationThemeInherited? result = context.dependOnInheritedWidgetOfExactType<ToastificationThemeInherited>();
     assert(result != null, 'No ToastificationThemeInherited found in context');
     return result!;
   }
 
-  @override
-  bool updateShouldNotify(ToastificationThemeInherited oldWidget) {
+  @override bool updateShouldNotify(ToastificationThemeInherited oldWidget) {
     return theme != oldWidget.theme;
   }
 }

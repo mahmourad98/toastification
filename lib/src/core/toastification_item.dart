@@ -106,8 +106,7 @@ class ToastificationItem implements Equatable {
   late final PausableTimer? _timer;
 
   /// the status notifier of the timer
-  final ValueNotifier<ToastTimeStatus> _timeStatus =
-      ValueNotifier(ToastTimeStatus.init);
+  final ValueNotifier<ToastTimeStatus> _timeStatus = ValueNotifier(ToastTimeStatus.init);
 
   /// the status of the timer
   ToastTimeStatus get timeStatus => _timeStatus.value;
@@ -126,9 +125,7 @@ class ToastificationItem implements Equatable {
   bool get hasTimer => _timer != null;
 
   /// checks if the timer is running or not
-  bool get isRunning =>
-      _timeStatus.value == ToastTimeStatus.started ||
-      _timeStatus.value == ToastTimeStatus.paused;
+  bool get isRunning => _timeStatus.value == ToastTimeStatus.started || _timeStatus.value == ToastTimeStatus.paused;
 
   /// checks if the timer is started or not
   bool get isStarted => _timeStatus.value == ToastTimeStatus.started;
@@ -167,14 +164,11 @@ class ToastificationItem implements Equatable {
     _timeStatus.removeListener(listener);
   }
 
-  @override
-  String toString() {
+  @override String toString() {
     return 'id: $id, timerDuration: $originalDuration, elapsedDuration: $elapsedDuration';
   }
 
-  @override
-  List<Object?> get props => [id];
+  @override List<Object?> get props => [id];
 
-  @override
-  bool? get stringify => false;
+  @override bool? get stringify => false;
 }

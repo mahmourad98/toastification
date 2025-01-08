@@ -13,15 +13,13 @@ class OnHoverShow extends StatefulWidget {
 
   final OnHoverBuilder childBuilder;
 
-  @override
-  State<OnHoverShow> createState() => _OnHoverShowState();
+  @override State<OnHoverShow> createState() => _OnHoverShowState();
 }
 
 class _OnHoverShowState extends State<OnHoverShow> {
   bool showWidget = false;
 
-  @override
-  Widget build(BuildContext context) {
+  @override Widget build(BuildContext context) {
     if (!widget.enabled) {
       return widget.childBuilder(context, true);
     }

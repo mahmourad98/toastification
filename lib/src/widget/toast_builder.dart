@@ -18,8 +18,7 @@ final class ToastHolderWidget extends StatelessWidget {
 
   final ToastificationAnimationBuilder transformerBuilder;
 
-  @override
-  Widget build(BuildContext context) {
+  @override Widget build(BuildContext context) {
     return KeyedSubtree(
       key: ValueKey(item.id),
       child: DefaultTextStyle(
@@ -51,8 +50,7 @@ class _AnimationTransformer extends AnimatedWidget {
   final ToastificationAnimationBuilder transformerBuilder;
 
   final Widget child;
-  @override
-  Widget build(BuildContext context) {
+  @override Widget build(BuildContext context) {
     const AlignmentDirectional axisAlign = AlignmentDirectional(-1.0, 0);
 
     final alignment = this.alignment.resolve(Directionality.of(context));

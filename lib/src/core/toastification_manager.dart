@@ -94,8 +94,7 @@ class ToastificationManager {
   /// Finds the [ToastificationItem] with the given [id].
   ToastificationItem? findToastificationItem(String id) {
     try {
-      return _notifications
-          .firstWhereOrNull((notification) => notification.id == id);
+      return _notifications.firstWhereOrNull((notification) => notification.id == id);
     } catch (e) {
       return null;
     }
@@ -157,8 +156,7 @@ class ToastificationManager {
       /// To make sure after the delay, there are no new notifications added.
       if (_notifications.isEmpty) {
         Future.delayed(
-          (removedItem.animationDuration ?? config.animationDuration) +
-              _removeOverlayDelay,
+          (removedItem.animationDuration ?? config.animationDuration) + _removeOverlayDelay,
           () {
             if (_notifications.isEmpty) {
               _overlayEntry?.remove();
@@ -271,11 +269,7 @@ class ToastificationManager {
     return marginValue.add(MediaQuery.of(context).viewPadding);
   }
 
-  ToastificationAnimationBuilder _toastAnimationBuilder(
-    ToastificationItem item,
-  ) =>
-      item.animationBuilder ?? config.animationBuilder;
+  ToastificationAnimationBuilder _toastAnimationBuilder(ToastificationItem item,) => item.animationBuilder ?? config.animationBuilder;
 
-  Duration _createAnimationDuration(ToastificationItem item) =>
-      item.animationDuration ?? config.animationDuration;
+  Duration _createAnimationDuration(ToastificationItem item) => item.animationDuration ?? config.animationDuration;
 }

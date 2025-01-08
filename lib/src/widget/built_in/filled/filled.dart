@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:toastification/src/core/context_ext.dart';
 import 'package:toastification/src/core/style/toastification_theme.dart';
 import 'package:toastification/src/widget/built_in/built_in.dart';
-import 'package:toastification/src/widget/built_in/widget/close_button.dart';
+import 'package:toastification/src/widget/built_in/extras/close_button.dart';
 
 class FilledToastWidget extends StatelessWidget {
   const FilledToastWidget({

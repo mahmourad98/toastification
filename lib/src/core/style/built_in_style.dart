@@ -7,6 +7,7 @@ abstract class BuiltInStyle {
   const BuiltInStyle();
 
   EdgeInsetsGeometry get padding;
+  EdgeInsetsGeometry get margin;
 
   MaterialColor get primaryColor;
   Color get backgroundColor;

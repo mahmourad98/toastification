@@ -11,6 +11,7 @@ class ToastificationTheme extends Equatable {
   final MaterialColor? _primaryColor;
   final MaterialColor? _backgroundColor;
   final Color? _foregroundColor;
+  final EdgeInsetsGeometry? _margin;
   final EdgeInsetsGeometry? _padding;
   final BorderRadiusGeometry? _borderRadius;
   final BorderSide? _borderSide;
@@ -27,6 +28,7 @@ class ToastificationTheme extends Equatable {
     MaterialColor? primaryColor,
     MaterialColor? backgroundColor,
     Color? foregroundColor,
+    EdgeInsetsGeometry? margin,
     EdgeInsetsGeometry? padding,
     BorderRadiusGeometry? borderRadius,
     BorderSide? borderSide,
@@ -40,6 +42,7 @@ class ToastificationTheme extends Equatable {
   })  : _primaryColor = primaryColor,
         _backgroundColor = backgroundColor,
         _foregroundColor = foregroundColor,
+        _margin = margin,
         _padding = padding,
         _borderRadius = borderRadius,
         _borderSide = borderSide,
@@ -52,67 +55,58 @@ class ToastificationTheme extends Equatable {
 
   // Getters that prioritize user-set values over default style values
   MaterialColor get primaryColor => _primaryColor ?? selectedStyle.primaryColor;
-  Color get backgroundColor =>
-      _backgroundColor ?? selectedStyle.backgroundColor;
-  Color get foregroundColor =>
-      _foregroundColor ?? selectedStyle.foregroundColor;
+  Color get backgroundColor => _backgroundColor ?? selectedStyle.backgroundColor;
+  Color get foregroundColor => _foregroundColor ?? selectedStyle.foregroundColor;
 
   MaterialColor? get primary => _primaryColor;
   Color? get background => _backgroundColor;
   Color? get foreground => _foregroundColor;
 
-  Color get decorationColor => _applyBlurEffect
-      ? backgroundColor.withValues(alpha: 0.5)
-      : backgroundColor;
+  Color get decorationColor => _applyBlurEffect ? backgroundColor.withValues(alpha: 0.5) : backgroundColor;
+  EdgeInsetsGeometry get margin => _margin ?? selectedStyle.margin;
   EdgeInsetsGeometry get padding => _padding ?? selectedStyle.padding;
-  BorderRadiusGeometry get borderRadius =>
-      _borderRadius ?? selectedStyle.borderRadius;
+  BorderRadiusGeometry get borderRadius => _borderRadius ?? selectedStyle.borderRadius;
   BorderSide? get borderSide => _borderSide;
-  Border get decorationBorder =>
-      Border.fromBorderSide(borderSide ?? selectedStyle.borderSide);
+  Border get decorationBorder => Border.fromBorderSide(borderSide ?? selectedStyle.borderSide);
 
   List<BoxShadow> get boxShadow => _boxShadow ?? selectedStyle.boxShadow;
   TextDirection get direction => _direction;
   bool get showProgressBar => _showProgressBar;
   bool get applyBlurEffect => _applyBlurEffect;
   bool get showIcon => _showIcon;
-  ProgressIndicatorThemeData get progressIndicatorTheme =>
-      _progressIndicatorTheme ?? selectedStyle.progressIndicatorTheme;
+  ProgressIndicatorThemeData get progressIndicatorTheme => _progressIndicatorTheme ?? selectedStyle.progressIndicatorTheme;
 
   // Additional getters that depend on the above properties
   IconData get icon => selectedStyle.icon;
   Color get iconColor => selectedStyle.iconColor;
 
   IconData get closeIcon => selectedStyle.closeIcon;
-  Color get closeIconColor =>
-      foreground?.withValues(alpha: .4) ?? selectedStyle.closeIconColor;
+  Color get closeIconColor => foreground?.withValues(alpha: .4) ?? selectedStyle.closeIconColor;
 
   TextStyle? get titleTextStyle => selectedStyle.titleTextStyle?.copyWith(
-        color: foregroundColor,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        height: 1.2,
-      );
+    color: foregroundColor,
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    height: 1.25,
+  );
 
-  TextStyle? get descriptionTextStyle =>
-      selectedStyle.descriptionTextStyle?.copyWith(
-        color: foregroundColor.withValues(alpha: .7),
-        fontSize: 14,
-        fontWeight: FontWeight.w300,
-        height: 1.2,
-      );
+  TextStyle? get descriptionTextStyle => selectedStyle.descriptionTextStyle?.copyWith(
+    color: foregroundColor.withValues(alpha: .7),
+    fontSize: 14,
+    fontWeight: FontWeight.w300,
+    height: 1.25,
+  );
 
-  BorderRadiusGeometry effectiveBorderRadius(BorderRadius borderRadius) =>
-      BorderRadiusDirectional.only(
-        topEnd: borderRadius.topRight.clamp(
-          minimum: const Radius.circular(0),
-          maximum: const Radius.circular(30),
-        ),
-        bottomEnd: borderRadius.bottomRight.clamp(
-          minimum: const Radius.circular(0),
-          maximum: const Radius.circular(30),
-        ),
-      );
+  BorderRadiusGeometry effectiveBorderRadius(BorderRadius borderRadius) => BorderRadiusDirectional.only(
+    topEnd: borderRadius.topRight.clamp(
+      minimum: const Radius.circular(0),
+      maximum: const Radius.circular(30),
+    ),
+    bottomEnd: borderRadius.bottomRight.clamp(
+      minimum: const Radius.circular(0),
+      maximum: const Radius.circular(30),
+    ),
+  );
 
   // Method to create a new instance with updated properties
   ToastificationTheme copyWith({
@@ -147,21 +141,20 @@ class ToastificationTheme extends Equatable {
     );
   }
 
-  @override
-  List<Object?> get props => [
-        selectedStyle,
-        themeData,
-        _primaryColor,
-        _backgroundColor,
-        _foregroundColor,
-        _padding,
-        _borderRadius,
-        _borderSide,
-        _boxShadow,
-        _showProgressBar,
-        _applyBlurEffect,
-        _showIcon,
-        _direction,
-        _progressIndicatorTheme,
-      ];
+  @override List<Object?> get props => [
+    selectedStyle,
+    themeData,
+    _primaryColor,
+    _backgroundColor,
+    _foregroundColor,
+    _padding,
+    _borderRadius,
+    _borderSide,
+    _boxShadow,
+    _showProgressBar,
+    _applyBlurEffect,
+    _showIcon,
+    _direction,
+    _progressIndicatorTheme,
+  ];
 }

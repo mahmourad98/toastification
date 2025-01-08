@@ -5,8 +5,7 @@ import 'package:toastification/src/core/toastification_config.dart';
 import 'package:toastification/src/widget/toastification_config_provider.dart';
 
 /// Key used to locate the [ToastificationOverlayState].
-final GlobalKey<ToastificationOverlayState> _keyFinder =
-    GlobalKey(debugLabel: 'toastification_overlay');
+final GlobalKey<ToastificationOverlayState> _keyFinder = GlobalKey(debugLabel: 'toastification_overlay');
 
 /// This method is responsible for finding [ToastificationOverlayState] with
 /// the GlobalKey that is assigned to [_GlobalToastificationOverlay].
@@ -24,15 +23,15 @@ ToastificationOverlayState findToastificationOverlayState() {
     if (state == null) {
       throw FlutterError(
         '''
-We can't find ToastificationOverlayState in your app.
-Did you declare ToastificationWrapper in your app's widget tree like this?
-  ToastificationWrapper(
-    child: MaterialApp(
-      title: 'My Application',
-      home: HomePage(),
-    ),
-  );
-''',
+          We can't find ToastificationOverlayState in your app.
+          Did you declare ToastificationWrapper in your app's widget tree like this?
+          ToastificationWrapper(
+            child: MaterialApp(
+              title: 'My Application',
+              home: HomePage(),
+            ),
+          );
+        ''',
       );
     }
     return true;
@@ -58,12 +57,9 @@ class ToastificationWrapper extends StatelessWidget {
     this.config,
   });
 
-  @override
-  Widget build(BuildContext context) {
+  @override Widget build(BuildContext context) {
     return ToastificationConfigProvider(
-      config: config ??
-          ToastificationConfigProvider.maybeOf(context)?.config ??
-          const ToastificationConfig(),
+      config: config ?? ToastificationConfigProvider.maybeOf(context)?.config ?? const ToastificationConfig(),
       child: _GlobalToastificationOverlay(child: child),
     );
   }
@@ -77,25 +73,18 @@ class _GlobalToastificationOverlay extends StatefulWidget {
   /// Constructs a [_GlobalToastificationOverlay] with the provided [child].
   _GlobalToastificationOverlay({required this.child}) : super(key: _keyFinder);
 
-  @override
-  StatefulElement createElement() {
+  @override StatefulElement createElement() {
     _debugInitialized = true;
     return super.createElement();
   }
 
-  @override
-  _GlobalToastificationOverlayState createState() =>
-      _GlobalToastificationOverlayState();
+  @override _GlobalToastificationOverlayState createState() => _GlobalToastificationOverlayState();
 }
 
-class _GlobalToastificationOverlayState
-    extends ToastificationOverlayState<_GlobalToastificationOverlay> {
-  @override
-  Widget build(BuildContext context) {
+class _GlobalToastificationOverlayState extends ToastificationOverlayState<_GlobalToastificationOverlay> {
+  @override Widget build(BuildContext context) {
     assert(() {
-      if (context
-              .findAncestorWidgetOfExactType<_GlobalToastificationOverlay>() !=
-          null) {
+      if (context.findAncestorWidgetOfExactType<_GlobalToastificationOverlay>() != null) {
         throw FlutterError(
           'There is already a ToastificationWrapper in the widget tree.',
         );
@@ -111,8 +100,7 @@ class _GlobalToastificationOverlayState
   /// retrieves its overlay. If a [Navigator] widget is not found, it throws
   /// an error indicating that the app's widget tree should be wrapped
   /// with a [ToastificationWrapper].
-  @override
-  OverlayState? get overlayState {
+  @override OverlayState? get overlayState {
     NavigatorState? navigator;
     void visitor(Element element) {
       if (navigator != null) return;
@@ -129,27 +117,24 @@ class _GlobalToastificationOverlayState
     assert(
       navigator != null,
       '''
-It looks like you are not using Navigator in your app.
-Did you wrapped your app widget like this?
-  ToastificationWrapper(
-    child: MaterialApp(
-      title: 'My Application',
-      home: HomePage(),
-    ),
-  )
-''',
+        It looks like you are not using Navigator in your app.
+        Did you wrapped your app widget like this?
+        ToastificationWrapper(
+          child: MaterialApp(
+            title: 'My Application',
+            home: HomePage(),
+          ),
+        )
+      ''',
     );
     return navigator?.overlay;
   }
 
-  @override
-  ToastificationConfig? get globalConfig =>
-      ToastificationConfigProvider.maybeOf(context)?.config;
+  @override ToastificationConfig? get globalConfig => ToastificationConfigProvider.maybeOf(context)?.config;
 }
 
 /// Abstract class representing the state of a Toastification overlay.
-abstract class ToastificationOverlayState<T extends StatefulWidget>
-    extends State<T> {
+abstract class ToastificationOverlayState<T extends StatefulWidget> extends State<T> {
   /// Retrieves the overlay state.
   OverlayState? get overlayState;
 

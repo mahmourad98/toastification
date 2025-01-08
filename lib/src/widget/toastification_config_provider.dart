@@ -17,8 +17,7 @@ class ToastificationConfigProvider extends InheritedWidget {
 
   /// finds the possible nearest [ToastificationConfigProvider] in the upper tree
   static ToastificationConfigProvider? maybeOf(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<ToastificationConfigProvider>();
+    return context.dependOnInheritedWidgetOfExactType<ToastificationConfigProvider>();
   }
 
   /// finds the nearest [ToastificationConfigProvider] in the upper tree
@@ -28,7 +27,5 @@ class ToastificationConfigProvider extends InheritedWidget {
     return result!;
   }
 
-  @override
-  bool updateShouldNotify(ToastificationConfigProvider oldWidget) =>
-      config != oldWidget.config;
+  @override bool updateShouldNotify(ToastificationConfigProvider oldWidget) => config != oldWidget.config;
 }

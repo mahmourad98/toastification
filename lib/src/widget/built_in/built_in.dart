@@ -19,8 +19,7 @@ class BuiltInContent extends StatelessWidget {
   final double? progressBarValue;
   final Widget? progressBarWidget;
 
-  @override
-  Widget build(BuildContext context) {
+  @override Widget build(BuildContext context) {
     Widget content = DefaultTextStyle.merge(
       style: context.toastTheme.titleTextStyle,
       maxLines: 2,
@@ -28,8 +27,7 @@ class BuiltInContent extends StatelessWidget {
       child: title ?? const SizedBox(),
     );
 
-    final showColumn =
-        description != null || context.toastTheme.showProgressBar == true;
+    final showColumn = description != null || context.toastTheme.showProgressBar == true;
     if (!showColumn) {
       return content;
     }
@@ -50,8 +48,7 @@ class BuiltInContent extends StatelessWidget {
           if (title != null || description != null) const SizedBox(height: 10),
           ProgressIndicatorTheme(
             data: context.toastTheme.progressIndicatorTheme,
-            child: progressBarWidget ??
-                LinearProgressIndicator(value: progressBarValue),
+            child: progressBarWidget ?? LinearProgressIndicator(value: progressBarValue),
           ),
         ],
       ],
