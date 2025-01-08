@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:toastification/src/helper/toast_helper.dart';
-import 'package:toastification/src/widget/built_in/extras/on_hover_builder.dart';
+import 'package:toastification/src/widget/built_in/on_hover_builder.dart';
 import 'package:toastification/toastification.dart';
 
 class BuiltInBuilder extends StatelessWidget {
@@ -85,6 +85,7 @@ class BuiltInBuilder extends StatelessWidget {
   final ToastificationCallbacks callbacks;
 
   @override Widget build(BuildContext context) {
+    final hasTimeout = item.hasTimer;
     final showProgressBar = (this.showProgressBar ?? true);
 
     final closeOnClick = this.closeOnClick ?? false;
@@ -94,39 +95,65 @@ class BuiltInBuilder extends StatelessWidget {
     final primaryColor = ToastHelper.convertToMaterialColor(this.primaryColor);
     final backgroundColor = ToastHelper.convertToMaterialColor(this.backgroundColor);
 
-    return _BuiltInContainer(
+
+    Widget toast = _ToastWrapper(
       item: item,
-      margin: margin ?? const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      type: type,
+      style: style,
+      direction: direction,
+      title: title,
+      description: description,
+      primaryColor: primaryColor,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      icon: icon,
+      showIcon: showIcon,
+      brightness: brightness,
+      padding: padding,
+      borderRadius: borderRadius,
+      borderSide: borderSide,
+      boxShadow: boxShadow,
+      onCloseTap: _onCloseButtonTap(),
       showProgressBar: showProgressBar,
-      closeOnClick: closeOnClick,
-      dragToClose: dragToClose,
-      dismissDirection: dismissDirection,
-      pauseOnHover: pauseOnHover,
-      callbacks: callbacks,
-      child: BuiltInToastBuilder(
-        item: item,
-        type: type,
-        style: style,
-        direction: direction,
-        title: title,
-        description: description,
-        primaryColor: primaryColor,
-        backgroundColor: backgroundColor,
-        foregroundColor: foregroundColor,
-        icon: icon,
-        showIcon: showIcon,
-        brightness: brightness,
-        padding: padding,
-        borderRadius: borderRadius,
-        borderSide: borderSide,
-        boxShadow: boxShadow,
-        onCloseTap: _onCloseButtonTap(),
-        showProgressBar: showProgressBar,
-        applyBlurEffect: applyBlurEffect,
-        progressBarTheme: progressBarTheme,
-        closeButton: closeButton,
-      ),
+      applyBlurEffect: applyBlurEffect,
+      progressBarTheme: progressBarTheme,
+      closeButton: closeButton,
     );
+
+    if (pauseOnHover && hasTimeout) {
+      toast = MouseRegion(
+        onEnter: (event) {
+          item.pause();
+        },
+        onExit: (event) {
+          item.start();
+        },
+        child: toast,
+      );
+    }
+
+    toast = GestureDetector(
+      onTap: () {
+        // if close on click is enabled dismiss the toast
+        if (closeOnClick) toastification.dismiss(item);
+
+        // call the onTap callback
+        callbacks.onTap?.call(item);
+      },
+      child: toast,
+    );
+
+    if (dragToClose) {
+      toast = _FadeDismissible(
+        item: item,
+        pauseOnHover: pauseOnHover,
+        dismissDirection: dismissDirection,
+        onDismissed: callbacks.onDismissed == null ? null : () => callbacks.onDismissed?.call(item),
+        child: toast,
+      );
+    }
+
+    return toast;
   }
 
   VoidCallback _onCloseButtonTap() {
@@ -140,8 +167,8 @@ class BuiltInBuilder extends StatelessWidget {
   }
 }
 
-class BuiltInToastBuilder extends StatelessWidget {
-  const BuiltInToastBuilder({
+class _ToastWrapper extends StatelessWidget {
+  const _ToastWrapper({
     super.key,
     this.item,
     required this.type,
@@ -154,6 +181,7 @@ class BuiltInToastBuilder extends StatelessWidget {
     this.foregroundColor,
     this.icon,
     this.brightness,
+    this.margin,
     this.padding,
     this.borderRadius,
     this.borderSide,
@@ -183,6 +211,7 @@ class BuiltInToastBuilder extends StatelessWidget {
 
   final Brightness? brightness;
 
+  final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
 
   final BorderRadiusGeometry? borderRadius;
@@ -229,6 +258,7 @@ class BuiltInToastBuilder extends StatelessWidget {
           primaryColor: primaryColor != null ? ToastHelper.createMaterialColor(primaryColor!) : null,
           foregroundColor: foregroundColor != null ? ToastHelper.createMaterialColor(foregroundColor!) : null,
           padding: padding ?? theme.padding,
+          margin: margin ?? theme.margin,
           borderRadius: borderRadius ?? theme.borderRadius,
           borderSide: borderSide ?? theme.borderSide,
           boxShadow: boxShadow ?? theme.boxShadow,
@@ -295,85 +325,6 @@ class BuiltInToastBuilder extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-/// This widget help you to use the default behavior of the built-in
-/// toastification Items
-class _BuiltInContainer extends StatelessWidget {
-  const _BuiltInContainer({
-    required this.item,
-    required this.margin,
-    required this.showProgressBar,
-    required this.closeOnClick,
-    required this.pauseOnHover,
-    required this.dragToClose,
-    this.dismissDirection,
-    required this.callbacks,
-    required this.child,
-  });
-
-  final ToastificationItem item;
-
-  final EdgeInsetsGeometry margin;
-
-  final bool showProgressBar;
-
-  final bool closeOnClick;
-
-  final bool dragToClose;
-
-  final DismissDirection? dismissDirection;
-
-  final bool pauseOnHover;
-
-  final ToastificationCallbacks callbacks;
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final hasTimeout = item.hasTimer;
-
-    Widget toast = Padding(
-      padding: margin,
-      child: child,
-    );
-
-    if (pauseOnHover && hasTimeout) {
-      toast = MouseRegion(
-        onEnter: (event) {
-          item.pause();
-        },
-        onExit: (event) {
-          item.start();
-        },
-        child: toast,
-      );
-    }
-
-    toast = GestureDetector(
-      onTap: () {
-        // if close on click is enabled dismiss the toast
-        if (closeOnClick) toastification.dismiss(item);
-
-        // call the onTap callback
-        callbacks.onTap?.call(item);
-      },
-      child: toast,
-    );
-
-    if (dragToClose) {
-      toast = _FadeDismissible(
-        item: item,
-        pauseOnHover: pauseOnHover,
-        dismissDirection: dismissDirection,
-        onDismissed: callbacks.onDismissed == null ? null : () => callbacks.onDismissed?.call(item),
-        child: toast,
-      );
-    }
-
-    return toast;
   }
 }
 

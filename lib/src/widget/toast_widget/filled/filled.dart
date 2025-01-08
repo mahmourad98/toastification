@@ -4,70 +4,55 @@ import 'package:flutter/material.dart';
 import 'package:toastification/src/core/context_ext.dart';
 import 'package:toastification/src/core/style/toastification_theme.dart';
 import 'package:toastification/src/widget/built_in/built_in.dart';
-import 'package:toastification/src/widget/built_in/extras/close_button.dart';
+import 'package:toastification/src/widget/built_in/close_button.dart';
+import 'package:toastification/src/widget/toast_widget/toast_widget.dart';
 
-class FlatToastWidget extends StatelessWidget {
-  const FlatToastWidget({
+class FilledToastWidget extends ToastWidget {
+  const FilledToastWidget({
     super.key,
-    this.title,
-    this.description,
-    this.icon,
-    required this.onCloseTap,
-    this.showCloseButton = true,
-    this.closeButton = const ToastCloseButton(),
-    this.progressBarValue,
-    this.progressBarWidget,
+    super.title,
+    super.description,
+    super.icon,
+    required super.onCloseTap,
+    super.showCloseButton,
+    super.showProgressBar,
+    super.closeButton,
+    super.progressBarValue,
+    super.progressBarWidget,
   });
 
-  final Widget? title;
-  final Widget? description;
-
-  final Widget? icon;
-
-  final VoidCallback onCloseTap;
-  final bool showCloseButton;
-  final ToastCloseButton closeButton;
-
-  final double? progressBarValue;
-  final Widget? progressBarWidget;
-
-  @override
-  Widget build(BuildContext context) {
+  @override Widget build(BuildContext context) {
     return Directionality(
       textDirection: context.toastTheme.direction,
       child: IconTheme(
-        data: Theme.of(context)
-            .primaryIconTheme
-            .copyWith(color: context.toastTheme.iconColor),
+        data: Theme.of(context).primaryIconTheme.copyWith(color: context.toastTheme.iconColor),
         child: buildBody(context.toastTheme),
       ),
     );
   }
 
-  Widget buildBody(ToastificationTheme toastTheme) {
+  @override Widget buildBody(ToastificationTheme toastTheme) {
+    final backgroundColor = toastTheme.primaryColor;
+
     Widget body = Container(
-      constraints: const BoxConstraints(minHeight: 64),
+      constraints: constraints,
+      margin: toastTheme.margin,
+      padding: toastTheme.padding,
       decoration: BoxDecoration(
-        color: toastTheme.decorationColor,
+        color: toastTheme.applyBlurEffect ? backgroundColor.withValues(alpha: 0.8) : backgroundColor,
         borderRadius: toastTheme.borderRadius,
         border: toastTheme.decorationBorder,
         boxShadow: toastTheme.boxShadow,
       ),
-      padding: toastTheme.padding,
       child: Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Offstage(
             offstage: !toastTheme.showIcon,
-            child: Padding(
-              padding: const EdgeInsetsDirectional.only(end: 12),
-              child: icon ??
-                  Icon(
-                    toastTheme.icon,
-                    size: 24,
-                    color: toastTheme.primary ?? toastTheme.iconColor,
-                  ),
-            ),
+            child: icon ?? getDefaultIcon(toastTheme,),
           ),
+          const SizedBox(width: 12),
           Expanded(
             child: BuiltInContent(
               title: title,
@@ -76,7 +61,7 @@ class FlatToastWidget extends StatelessWidget {
               progressBarWidget: progressBarWidget,
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 12),
           ToastCloseButtonHolder(
             onCloseTap: onCloseTap,
             showCloseButton: showCloseButton,

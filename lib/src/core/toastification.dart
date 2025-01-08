@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toastification/src/core/toastification_manager.dart';
-import 'package:toastification/src/core/toastification_overlay_state.dart';
 import 'package:toastification/toastification.dart';
 
-import '../widget/built_in/built_in_builder.dart';
 
 // TODO(payam): add navigator observer
 
@@ -165,8 +163,7 @@ class Toastification {
     );
   }
 
-  @Deprecated(
-      'use show or showCustom method instead, and you can pass the OverlayState as a parameter')
+  @Deprecated('use show or showCustom method instead, and you can pass the OverlayState as a parameter')
 
   /// using this method you can show a notification by using the [navigator] overlay
   /// you should create your own widget and pass it to the [builder] parameter
@@ -247,6 +244,7 @@ class Toastification {
     Color? primaryColor,
     Color? backgroundColor,
     Color? foregroundColor,
+    BoxConstraints? constraints,
     EdgeInsetsGeometry? padding,
     EdgeInsetsGeometry? margin,
     BorderRadiusGeometry? borderRadius,
@@ -273,9 +271,9 @@ class Toastification {
       animationBuilder: animationBuilder,
       animationDuration: animationDuration,
       callbacks: callbacks,
-      builder: (context, holder) {
+      builder: (BuildContext buildContext, ToastificationItem item,) {
         return BuiltInBuilder(
-          item: holder,
+          item: item,
           type: type,
           style: style,
           title: title,
